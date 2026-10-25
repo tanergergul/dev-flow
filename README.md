@@ -36,7 +36,7 @@ Copilot'un aylık AI Credit bütçesi, pahalı modellerin her işte kullanılmas
 ```powershell
 git clone <bu repo>
 cd dev-flow
-powershell -ExecutionPolicy Bypass -File .\kur.ps1
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
 ```
 VS Code'u yeniden başlatın, bir projeyi açın, Chat'te **Session Target → Local** seçin ve:
 1. `/df-kurulum`: projeye bir kez kurulur.
@@ -66,7 +66,7 @@ A Copilot AI Credit budget runs out within days when expensive models are used f
 ```powershell
 git clone <this repo>
 cd dev-flow
-powershell -ExecutionPolicy Bypass -File .\kur.ps1 -Lang en
+powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en
 ```
 Restart VS Code, open a project, select **Session Target → Local** in the chat, then:
 1. `/df-setup`: once per project.
@@ -81,7 +81,7 @@ Requirements, all commands, a worked example, customization and troubleshooting:
 | | Türkçe | English |
 |---|---|---|
 | Kılavuz / Guide | [tr/README.md](tr/README.md) | [en/README.md](en/README.md) |
-| Kurulum / Install | `.\kur.ps1` | `.\kur.ps1 -Lang en` |
+| Kurulum / Install | `.\setup.ps1` | `.\setup.ps1 -Lang en` |
 | İlk komut / First command | `/df-kurulum` | `/df-setup` |
 | Yeni görev / New task | `/df-gorev` | `/df-task` |
 | Hata / Bug | `/df-hata` | `/df-bug` |
@@ -95,7 +95,7 @@ Both versions can be installed side by side and used in the same project; projec
 ```
 tr/               Türkçe sürüm: agents, prompts, skills, README
 en/               English version: agents, prompts, skills, README
-kur.ps1           Kurulum ve güncelleme / Install and update (-Lang tr | en)
+setup.ps1           Kurulum ve güncelleme / Install and update (-Lang tr | en)
 CHANGELOG.md      Sürüm notları / Release notes
 CONTRIBUTING.md   Katkı rehberi / Contribution guide
 LICENSE           MIT

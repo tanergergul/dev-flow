@@ -10,7 +10,7 @@ Temel fikir: pahalı model (Opus) sadece düşünme ve karar işlerinde çalış
 | **VS Code** | Güncel sürüm. Handoff butonları 1.106, paralel subagent'lar 1.109 ve sonrasını gerektirir. |
 | **GitHub Copilot** | Business veya Enterprise planı (AI Credits). Agent'ların kullandığı modeller (GPT-6 Luna, Claude Haiku 5.5, Claude Sonnet 5.5, Claude Opus 5.5 ve yedekleri) organizasyonunuzda açık olmalı. |
 | **Local harness** | Chat'teki **Session Target** seçicisinde **Local** seçili olmalı. Komutlar (prompt dosyaları) ve handoff butonları sadece Local'de çalışır. Local görünmüyorsa VS Code dokümantasyonuna göre deneysel `chat.editor.localAgent.enabled` ayarı gerekir; kurumsal yönetimde yöneticiler 1.142'den itibaren `vscode.temporaryDefaultToLocalHarness` ile Local'i açık tutabilir. |
-| **İşletim sistemi** | `kur.ps1` Windows PowerShell 5.1 veya üstü içindir. macOS ve Linux'ta dosyaları elle kopyalayın (aşağıya bakın). |
+| **İşletim sistemi** | `setup.ps1` Windows PowerShell 5.1 veya üstü içindir. macOS ve Linux'ta dosyaları elle kopyalayın (aşağıya bakın). |
 | **Git** | Önerilir. Adım başına commit, denetim diff'i ve PR açıklaması git kullanır; git yoksa bu adımlar atlanır. |
 | **Proje** | Örnek komutlar .NET içindir, ama yapı dilden bağımsızdır. `/df-kurulum` projenizin build ve test komutlarını kendisi bulur. |
 
@@ -21,7 +21,7 @@ Temel fikir: pahalı model (Opus) sadece düşünme ve karar işlerinde çalış
 ### 1. Bilgisayara bir kez
 `dev-flow` klasörünün kökünde:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\kur.ps1
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
 ```
 Türkçe sürüm varsayılandır. İngilizce sürüm için `-Dil en` ekleyin. İkisi aynı bilgisayara birlikte kurulabilir.
 - Agent'ları ve komutları VS Code kullanıcı profiline kopyalar (`%APPDATA%\Code\User\prompts`). Bütün projelerinizde çalışırlar.
@@ -45,12 +45,13 @@ Projeyi VS Code'da açın, chat'te **`/df-kurulum`** çalıştırın. Agent:
 
 Dev flow güncellendiğinde şablonları yenilemek için `/df-kurulum`'u tekrar çalıştırabilirsiniz. Projede değiştirilmiş bir şablon varsa üzerine yazmadan önce farkı gösterip sorar: yeni sürümü al, projedekini koru ya da birleştir.
 
-`kur.ps1`, var olan `kurum-kararlari` skill'inin üzerine yazmaz. Dev flow'un yeni sürümü bu dosyaya yeni bir bölüm eklediyse (ör. "İlkeler") onu `tr/skills/kurum-kararlari/SKILL.md` dosyasından kendi kopyanıza elle aktarın.
+`setup.ps1`, var olan `kurum-kararlari` skill'inin üzerine yazmaz. Dev flow'un yeni sürümü bu dosyaya yeni bir bölüm eklediyse (ör. "İlkeler") onu `tr/skills/kurum-kararlari/SKILL.md` dosyasından kendi kopyanıza elle aktarın.
 
 ### İlk kullanım kontrol listesi
 Agent'lar VS Code arayüzünü göremez; bu ikisini siz kontrol edin:
 - [ ] Chat'teki agent listesinde `kesif`, `mimar`, `uygulayici`, `denetci`, `hizli`, `hata-analiz`, `aciklayici`, `oto`, `durum`, `kurulum`, `pr`, `gorev-sec`, `skill-olustur` görünüyor. `arastirmaci` ve `guvenlik-tarama` sadece yardımcı subagent oldukları için listede görünmez.
-- [ ] `/df-kurulum` çalışırken model seçicide Sonnet görünüyor. Görünmüyorsa agent dosyalarındaki `model` alanındaki isimleri model seçicinizdeki isimlerle değiştirip `kur.ps1`'i tekrar çalıştırın.
+- [ ] `/df-kurulum` çalışırken model seçicide Sonnet görünüyor. Görünmüyorsa agent ve komut dosyalarındaki `model` alanındaki isimleri model seçicinizdeki isimlerle değiştirip `setup.ps1`'i tekrar çalıştırın.
+- [ ] **Gerçekte hangi modelin çalıştığını doğrulayın.** Her agent'ı ilk kez çalıştırdığınızda Command Palette'te "Chat Debug" diye aratıp chat'in debug görünümünü açın ve kullanılan modele bakın. VS Code'da, agent dosyasında sabitlenen modelin model seçicideki seçim tarafından ezildiği açık bir hata kaydı var ([#338949](https://github.com/microsoft/vscode/issues/338949)). Model yanlışsa model seçicide doğru modeli elle seçin. Bu kontrolü atlamayın; ucuz modelde çalışması gereken bir agent'ın Opus'ta çalışması kotanızı hızla tüketir.
 
 Önerilen VS Code kullanıcı ayarları:
 - `chat.subagents.showCreditUsage: true`: Subagent'ların harcadığı credit'leri gösterir. Maliyeti ölçmek için.
@@ -60,7 +61,7 @@ Agent'lar VS Code arayüzünü göremez; bu ikisini siz kontrol edin:
 
 ### Agent'lar görünmüyorsa
 1. Chat'in **Session Target** seçicisinde **Local** seçili olsun. Komutlar (`/df-gorev` vb.) ve handoff butonları sadece Local'de çalışır.
-2. Agent menüsünden **Configure Custom Agents**'ı açın. Kullanıcı (User) agent'larının hangi klasörde tutulduğunu orada görebilirsiniz. Klasör farklıysa `.\kur.ps1 -Hedef <o klasör>` ile tekrar kurun.
+2. Agent menüsünden **Configure Custom Agents**'ı açın. Kullanıcı (User) agent'larının hangi klasörde tutulduğunu orada görebilirsiniz. Klasör farklıysa `.\setup.ps1 -Hedef <o klasör>` ile tekrar kurun.
 
 ---
 
@@ -106,7 +107,7 @@ Agent'lar VS Code arayüzünü göremez; bu ikisini siz kontrol edin:
 ```
 
 ## Komutlar
-**Her aşamayı yeni bir chat'te başlatın** (Chat panelinin üstündeki `+`). Komut doğru agent'ı ve modeli kendisi seçer. Komut yerine agent menüsünden agent'ı seçip "devam" yazmak da aynı işi yapar.
+**Her aşamayı yeni bir chat'te başlatın** (Chat panelinin üstündeki `+`). Komut doğru agent'ı ve modeli kendisi seçer. **Agent'ları menüden seçmek yerine komutları kullanın:** modeli Local harness'ta belgelenmiş şekilde komut dosyası sabitler. Agent'ı menüden seçerseniz model seçicideki model kullanılabilir (bkz. İlk kullanım kontrol listesi).
 
 | Komut | Agent | Ne zaman |
 |---|---|---|
@@ -270,7 +271,7 @@ Bu dosyalar büyüdükçe Mimar daha az soru sorar ve `kesif` daha az kod tarar.
 ## Ekip paylaşımı
 - **Paylaşılan (git'te):** `.github/copilot-instructions.md`, `.devflow/templates/tr/`, `.devflow/knowledge/` (proje kararları, dersler, modül özetleri), proje skill'leri.
 - **Kişisel (git dışında):** `.devflow/active.md`, `.devflow/tasks/`, `.devflow/reports/`. Bir görevin kararlarını ekiple paylaşmanın yolu `/df-pr` ile üretilen PR açıklamasıdır.
-- **Kişisel (bilgisayarınızda):** agent'lar, komutlar, `kurum-kararlari` ve kişisel skill'ler. Ekip arkadaşlarınız dev flow kullanmak isterse `kur.ps1`'i kendileri çalıştırır.
+- **Kişisel (bilgisayarınızda):** agent'lar, komutlar, `kurum-kararlari` ve kişisel skill'ler. Ekip arkadaşlarınız dev flow kullanmak isterse `setup.ps1`'i kendileri çalıştırır.
 
 ## Yeni proje
 1. Boş klasörü VS Code'da açın ve `/df-kurulum` çalıştırın (sadece iskeleti kurar).
@@ -290,7 +291,7 @@ Bu dosyalar büyüdükçe Mimar daha az soru sorar ve `kesif` daha az kod tarar.
 - Inline completion ve Next Edit Suggestions credit harcamaz. Basit kod yazımında chat yerine bunları kullanın.
 
 ## Modeller
-Her agent dosyasındaki `model` alanında birincil ve yedek model tanımlıdır; yedek, birincil kullanılamazsa devreye girer. Modeli değiştirmek için `tr/agents/` altındaki dosyayı düzenleyip `kur.ps1`'i tekrar çalıştırın.
+Her agent dosyasındaki `model` alanında birincil ve yedek model tanımlıdır; yedek, birincil kullanılamazsa devreye girer. Her komut dosyasında da (`tr/prompts/`) agent'ının birincil modeli yazılıdır. Komut dosyalarında yedek model belgelenmediği için sadece birincil model vardır. **Modeli değiştirirken iki yeri birlikte güncelleyin:** `tr/agents/<agent>.agent.md` ve o agent'ı çağıran `tr/prompts/df-*.prompt.md` dosyaları. Sonra `setup.ps1`'i tekrar çalıştırın.
 
 | Agent | Model | Neden |
 |---|---|---|
@@ -308,11 +309,11 @@ Her agent dosyasındaki `model` alanında birincil ve yedek model tanımlıdır;
 ---
 
 ## Özelleştirme
-Değişiklikleri her zaman bu repodaki dosyalarda yapın ve `kur.ps1`'i tekrar çalıştırın. VS Code profil klasöründeki kopyalar bir sonraki kurulumda üzerine yazılır (eskisi `.bak` olarak saklanır).
+Değişiklikleri her zaman bu repodaki dosyalarda yapın ve `setup.ps1`'i tekrar çalıştırın. VS Code profil klasöründeki kopyalar bir sonraki kurulumda üzerine yazılır (eskisi `.bak` olarak saklanır).
 
 | Ne | Nerede |
 |---|---|
-| Bir agent'ın modeli | `tr/agents/<agent>.agent.md` → `model` alanı (birincil, yedek) |
+| Bir agent'ın modeli | `tr/agents/<agent>.agent.md` → `model` alanı (birincil, yedek) **ve** o agent'ın komut dosyaları `tr/prompts/df-*.prompt.md` → `model` alanı |
 | İlkeler ve kurum kararları | `~/.copilot/skills/kurum-kararlari/SKILL.md` (kişisel; kurulum betiği üzerine yazmaz) |
 | Proje kararları | Projede `.devflow/knowledge/decisions.md` (git'te; PR ile değiştirin) |
 | Bir projenin şablonları | Projede `.devflow/templates/tr/`. `/df-kurulum` güncellemede farkı gösterip sorar |
@@ -329,7 +330,7 @@ Değişiklikleri her zaman bu repodaki dosyalarda yapın ve `kur.ps1`'i tekrar �
 ## Güncelleme ve kaldırma
 **Güncelleme**
 1. Repoyu güncelleyin (`git pull`).
-2. `.\kur.ps1` (veya `-Dil en`). Değişen dosyalar `.bak` olarak yedeklenir.
+2. `.\setup.ps1` (veya `-Dil en`). Değişen dosyalar `.bak` olarak yedeklenir.
 3. Her projede bir kez `/df-kurulum`. Şablon farkları varsa sorar.
 4. `CHANGELOG.md`'de `kurum-kararlari` skill'ine yeni bir bölüm eklendiği yazıyorsa onu kendi kopyanıza elle aktarın.
 
@@ -353,8 +354,8 @@ Session Target'ta Local seçili mi? VS Code'u yeniden başlattınız mı? Değil
 **Copilot harness kullanmak zorundayım.**
 Agent'lar Copilot harness'ta da çalışır, ama komutlar ve handoff butonları çalışmaz. Agent menüsünden agent'ı seçip "devam" yazın. Soru aracı olmayabilir; agent'lar o zaman soruları düz metinle sorar.
 
-**Model seçicide farklı bir model görünüyor.**
-Agent dosyalarındaki `model` adları sizin model seçicinizdeki adlarla birebir aynı olmalı. Düzeltip `kur.ps1`'i tekrar çalıştırın.
+**Model seçicide farklı bir model görünüyor veya debug görünümünde yanlış model çalışıyor.**
+İki olası sebep var. (1) Agent ve komut dosyalarındaki `model` adları sizin model seçicinizdeki adlarla birebir aynı olmalı; değilse düzeltip `setup.ps1`'i tekrar çalıştırın. (2) VS Code'da, sabitlenen modelin model seçicideki seçim tarafından ezildiği açık bir hata var ([#338949](https://github.com/microsoft/vscode/issues/338949)). Agent'ı menüden değil komutla başlatın; yine yanlışsa model seçicide doğru modeli elle seçin.
 
 **Sorular tıklanabilir değil, düz metin geliyor.**
 `askQuestions` aracı ortamınızda yok demektir. Sorun değil: `1a 2b` gibi ya da `önerilenler` yazarak cevaplayın.
@@ -374,10 +375,10 @@ Tekrar eden kararları `decisions.md`'ye (proje) veya `kurum-kararlari`'na (kuru
 **Uygulayıcı `develop` dalında durdu.**
 Bilinçli: korumalı dallarda commit atmadan önce sorar.
 
-**`kur.ps1` çalışmıyor.**
-`powershell -ExecutionPolicy Bypass -File .\kur.ps1` ile deneyin. Kurum politikası engelliyorsa dosyaları elle kopyalayın (Kurulum).
+**`setup.ps1` çalışmıyor.**
+`powershell -ExecutionPolicy Bypass -File .\setup.ps1` ile deneyin. Kurum politikası engelliyorsa dosyaları elle kopyalayın (Kurulum).
 
-**`kur.ps1` çıktısında Türkçe karakterler bozuk.**
+**`setup.ps1` çıktısında Türkçe karakterler bozuk.**
 Konsolunuzun kod sayfasından kaynaklanır, kurulan dosyalar etkilenmez. İsterseniz önce `chcp 65001` çalıştırın.
 
 **Ekipte biri Türkçe, biri İngilizce sürümü kullanıyor.**
@@ -407,7 +408,7 @@ Desteklenir; bkz. "İngilizce sürüm ve ortak yapı".
 | AI Credit | Copilot'un kullanım birimi; 1 credit = 0,01 USD, model token fiyatına göre harcanır |
 
 ## İngilizce sürüm ve ortak yapı
-`en/` klasöründe aynı akışın İngilizce sürümü var (agent'lar: `scout`, `architect`, `implementer`…, komutlar: `/df-task`, `/df-spec`, `/df-implement`…). Ekipte İngilizce kullanmak isteyenler `.\kur.ps1 -Dil en` ile kurar.
+`en/` klasöründe aynı akışın İngilizce sürümü var (agent'lar: `scout`, `architect`, `implementer`…, komutlar: `/df-task`, `/df-spec`, `/df-implement`…). Ekipte İngilizce kullanmak isteyenler `.\setup.ps1 -Dil en` ile kurar.
 
 İki sürüm aynı projede birlikte kullanılabilir:
 - Proje dosyalarının yolları dile bağımsızdır: `.devflow/active.md`, `tasks/`, `knowledge/`, `01-context.md`, `04-status.md`…
@@ -426,7 +427,7 @@ tr/
   skills/
     kurum-kararlari/SKILL.md   Kurum geneli ilke ve kararlar (~/.copilot/skills/ altına bir kez kopyalanır)
 en/            İngilizce sürüm
-kur.ps1        Kurulum ve güncelleme betiği (-Dil tr | en)
+setup.ps1        Kurulum ve güncelleme betiği (-Dil tr | en)
 LICENSE        MIT lisansı
 CHANGELOG.md   Sürüm notları
 CONTRIBUTING.md Katkı rehberi

@@ -10,7 +10,7 @@ The idea: the expensive model (Opus) works only on thinking and decisions. Ambig
 | **VS Code** | A current version. Handoff buttons need 1.106, parallel subagents 1.109 or later. |
 | **GitHub Copilot** | Business or Enterprise plan (AI Credits). The models the agents use (GPT-6 Luna, Claude Haiku 5.5, Claude Sonnet 5.5, Claude Opus 5.5 and their fallbacks) must be enabled in your organization. |
 | **Local harness** | **Local** must be selected in the chat's **Session Target** picker. Commands (prompt files) and handoff buttons only work in Local. If Local is not shown, the VS Code documentation says the experimental `chat.editor.localAgent.enabled` setting is needed; under enterprise management, administrators can keep Local available with `vscode.temporaryDefaultToLocalHarness` from 1.142 on. |
-| **Operating system** | `kur.ps1` is for Windows PowerShell 5.1 or later. On macOS and Linux copy the files by hand (see below). |
+| **Operating system** | `setup.ps1` is for Windows PowerShell 5.1 or later. On macOS and Linux copy the files by hand (see below). |
 | **Git** | Recommended. Per-step commits, the review diff and the PR description use git; without git these steps are skipped. |
 | **Project** | Example commands are for .NET, but the structure is language-independent. `/df-setup` finds your project's build and test commands itself. |
 
@@ -21,7 +21,7 @@ The idea: the expensive model (Opus) works only on thinking and decisions. Ambig
 ### 1. Once per machine
 In the root of the `dev-flow` folder:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\kur.ps1 -Lang en
+powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en
 ```
 - Copies the agents and commands to your VS Code user profile (`%APPDATA%\Code\User\prompts`). They work in all your projects.
 - Installs the `org-decisions` skill under `~\.copilot\skills\`. Existing skills are never overwritten.
@@ -46,12 +46,13 @@ Open the project in VS Code and run **`/df-setup`** in the chat. The agent:
 
 Run `/df-setup` again after a dev flow update to refresh the templates. If a template was changed in the project, it shows the difference and asks before overwriting: take the new version, keep the project's, or merge.
 
-`kur.ps1` never overwrites an existing `org-decisions` skill. If a new dev flow version adds a section to this file (e.g. "Principles"), copy it from `en/skills/org-decisions/SKILL.md` into your own copy by hand.
+`setup.ps1` never overwrites an existing `org-decisions` skill. If a new dev flow version adds a section to this file (e.g. "Principles"), copy it from `en/skills/org-decisions/SKILL.md` into your own copy by hand.
 
 ### First-use checklist
 Agents cannot see the VS Code UI; check these two yourself:
 - [ ] The chat's agent list shows `scout`, `architect`, `implementer`, `reviewer`, `quick`, `bug-analyst`, `explainer`, `auto`, `status`, `setup`, `close`, `switch-task`, `skill-maker`. `researcher` and `security-scan` are helper subagents and do not appear in the list.
-- [ ] While `/df-setup` runs, the model picker shows Sonnet. If not, change the names in the `model` field of the agent files to the names in your model picker and run `kur.ps1` again.
+- [ ] While `/df-setup` runs, the model picker shows Sonnet. If not, change the names in the `model` field of the agent and command files to the names in your model picker and run `setup.ps1` again.
+- [ ] **Verify which model actually runs.** The first time you run each agent, search for "Chat Debug" in the Command Palette, open the chat debug view and check the model used. VS Code has an open issue where the model pinned in an agent file is overridden by the model picker's selection ([#338949](https://github.com/microsoft/vscode/issues/338949)). If the model is wrong, select the right model in the model picker by hand. Do not skip this check; an agent meant to run on a cheap model running on Opus drains your quota quickly.
 
 Recommended VS Code user settings:
 - `chat.subagents.showCreditUsage: true`: shows the credits subagents spend. For measuring cost.
@@ -61,7 +62,7 @@ Recommended VS Code user settings:
 
 ### If the agents do not appear
 1. Select **Local** in the chat's **Session Target** picker. Commands (`/df-task` etc.) and handoff buttons only work in Local.
-2. Open **Configure Custom Agents** from the agent menu. It shows which folder user agents are kept in. If it is a different folder, reinstall with `.\kur.ps1 -Lang en -Target <that folder>`.
+2. Open **Configure Custom Agents** from the agent menu. It shows which folder user agents are kept in. If it is a different folder, reinstall with `.\setup.ps1 -Lang en -Target <that folder>`.
 
 ---
 
@@ -107,7 +108,7 @@ Recommended VS Code user settings:
 ```
 
 ## Commands
-**Start every phase in a new chat** (the `+` at the top of the Chat panel). The command selects the right agent and model itself. Selecting the agent from the agent menu and typing "continue" does the same.
+**Start every phase in a new chat** (the `+` at the top of the Chat panel). The command selects the right agent and model itself. **Use the commands rather than picking agents from the menu:** the command file pins the model the way the Local harness documents. If you pick an agent from the menu, the model picker's model may be used (see the first-use checklist).
 
 | Command | Agent | When |
 |---|---|---|
@@ -271,7 +272,7 @@ As these files grow, the architect asks fewer questions and `scout` scans less c
 ## Team sharing
 - **Shared (in git):** `.github/copilot-instructions.md`, `.devflow/templates/`, `.devflow/knowledge/` (project decisions, lessons, module summaries), project skills.
 - **Personal (outside git):** `.devflow/active.md`, `.devflow/tasks/`, `.devflow/reports/`. The way to share a task's decisions with the team is the PR description produced by `/df-close`.
-- **Personal (on your machine):** agents, commands, `org-decisions` and personal skills. Teammates who want to use dev flow run `kur.ps1` themselves.
+- **Personal (on your machine):** agents, commands, `org-decisions` and personal skills. Teammates who want to use dev flow run `setup.ps1` themselves.
 
 ## New project
 1. Open the empty folder in VS Code and run `/df-setup` (it only creates the skeleton).
@@ -291,7 +292,7 @@ As these files grow, the architect asks fewer questions and `scout` scans less c
 - Inline completions and Next Edit Suggestions do not cost credits. Use them instead of chat for simple coding.
 
 ## Models
-The `model` field of every agent file defines a primary and a fallback model; the fallback is used if the primary is unavailable. To change a model, edit the file under `en/agents/` and run `kur.ps1 -Lang en` again.
+The `model` field of every agent file defines a primary and a fallback model; the fallback is used if the primary is unavailable. Every command file (`en/prompts/`) also contains its agent's primary model. Fallbacks are not documented for command files, so they contain only the primary model. **When changing a model, update both places:** `en/agents/<agent>.agent.md` and the `en/prompts/df-*.prompt.md` files that call that agent. Then run `setup.ps1 -Lang en` again.
 
 | Agent | Model | Why |
 |---|---|---|
@@ -309,11 +310,11 @@ According to the documentation, the `reasoning-effort` field is ignored in the L
 ---
 
 ## Customization
-Always make changes in the files of this repository and run `kur.ps1` again. The copies in the VS Code profile folder are overwritten on the next install (the old one is kept as `.bak`).
+Always make changes in the files of this repository and run `setup.ps1` again. The copies in the VS Code profile folder are overwritten on the next install (the old one is kept as `.bak`).
 
 | What | Where |
 |---|---|
-| An agent's model | `en/agents/<agent>.agent.md` → `model` field (primary, fallback) |
+| An agent's model | `en/agents/<agent>.agent.md` → `model` field (primary, fallback) **and** that agent's command files `en/prompts/df-*.prompt.md` → `model` field |
 | Principles and organization decisions | `~/.copilot/skills/org-decisions/SKILL.md` (personal; the install script never overwrites it) |
 | Project decisions | In the project: `.devflow/knowledge/decisions.md` (in git; change it through a PR) |
 | A project's templates | In the project: `.devflow/templates/en/`. `/df-setup` shows the difference and asks on update |
@@ -330,7 +331,7 @@ Always make changes in the files of this repository and run `kur.ps1` again. The
 ## Updating and uninstalling
 **Updating**
 1. Update the repository (`git pull`).
-2. `.\kur.ps1 -Lang en`. Changed files are backed up as `.bak`.
+2. `.\setup.ps1 -Lang en`. Changed files are backed up as `.bak`.
 3. Run `/df-setup` once in each project. It asks if templates differ.
 4. If `CHANGELOG.md` says a new section was added to the `org-decisions` skill, copy it into your own copy by hand.
 
@@ -354,8 +355,8 @@ Is Local selected in Session Target? Did you restart VS Code? Otherwise follow "
 **I have to use the Copilot harness.**
 The agents also work in the Copilot harness, but commands and handoff buttons do not. Select the agent from the agent menu and type "continue". The question tool may be unavailable; agents then ask their questions as plain text.
 
-**The model picker shows a different model.**
-The `model` names in the agent files must exactly match the names in your model picker. Fix them and run `kur.ps1` again.
+**The model picker shows a different model, or the debug view shows the wrong model running.**
+There are two possible causes. (1) The `model` names in the agent and command files must exactly match the names in your model picker; if not, fix them and run `setup.ps1` again. (2) VS Code has an open issue where the pinned model is overridden by the model picker's selection ([#338949](https://github.com/microsoft/vscode/issues/338949)). Start the agent with its command rather than from the menu; if it is still wrong, select the right model in the model picker by hand.
 
 **Questions arrive as plain text, not clickable.**
 The `askQuestions` tool is not available in your environment. No problem: answer like `1a 2b`, or write `recommended`.
@@ -375,10 +376,10 @@ Have recurring decisions added to `decisions.md` (project) or `org-decisions` (o
 **The implementer stopped on the `develop` branch.**
 On purpose: it asks before committing on protected branches.
 
-**`kur.ps1` does not run.**
-Try `powershell -ExecutionPolicy Bypass -File .\kur.ps1 -Lang en`. If organization policy blocks it, copy the files by hand (Installation).
+**`setup.ps1` does not run.**
+Try `powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en`. If organization policy blocks it, copy the files by hand (Installation).
 
-**Characters in the `kur.ps1` output are garbled.**
+**Characters in the `setup.ps1` output are garbled.**
 This comes from your console's code page; the installed files are not affected. Run `chcp 65001` first if you like.
 
 **Someone on the team uses the Turkish version, someone the English one.**
@@ -408,7 +409,7 @@ Supported; see "Turkish version and shared structure".
 | AI Credit | Copilot's usage unit; 1 credit = 0.01 USD, consumed according to model token prices |
 
 ## Turkish version and shared structure
-The `tr/` folder contains the Turkish version of the same flow (agents: `kesif`, `mimar`, `uygulayici`…, commands: `/df-gorev`, `/df-planla`, `/df-uygula`…). It is the default for `kur.ps1`.
+The `tr/` folder contains the Turkish version of the same flow (agents: `kesif`, `mimar`, `uygulayici`…, commands: `/df-gorev`, `/df-planla`, `/df-uygula`…). It is the default for `setup.ps1`.
 
 Both versions can be used in the same project:
 - Project file paths are language-neutral: `.devflow/active.md`, `tasks/`, `knowledge/`, `01-context.md`, `04-status.md`…
@@ -427,7 +428,7 @@ en/
   skills/
     org-decisions/SKILL.md   Organization-wide principles and decisions (copied once to ~/.copilot/skills/)
 tr/            Turkish version
-kur.ps1        Install and update script (-Lang tr | en)
+setup.ps1        Install and update script (-Lang tr | en)
 LICENSE        MIT license
 CHANGELOG.md   Release notes
 CONTRIBUTING.md Contribution guide

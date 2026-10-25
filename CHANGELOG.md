@@ -3,7 +3,7 @@
 Bu dosya sürümler arasındaki değişiklikleri listeler. Biçim [Keep a Changelog](https://keepachangelog.com/) yaklaşımını, sürüm numaraları [Semantic Versioning](https://semver.org/) kurallarını izler.
 This file lists changes between versions. The format follows [Keep a Changelog](https://keepachangelog.com/); version numbers follow [Semantic Versioning](https://semver.org/).
 
-**Güncellerken / When updating:** `kur.ps1`, var olan `kurum-kararlari` / `org-decisions` skill'inin üzerine yazmaz. Bir sürüm bu dosyaya yeni bir bölüm eklerse burada belirtilir; o bölümü kendi kopyanıza elle aktarın. `kur.ps1` never overwrites an existing `kurum-kararlari` / `org-decisions` skill. If a release adds a section to it, it is noted here; copy that section into your own copy by hand.
+**Güncellerken / When updating:** `setup.ps1`, var olan `kurum-kararlari` / `org-decisions` skill'inin üzerine yazmaz. Bir sürüm bu dosyaya yeni bir bölüm eklerse burada belirtilir; o bölümü kendi kopyanıza elle aktarın. `setup.ps1` never overwrites an existing `kurum-kararlari` / `org-decisions` skill. If a release adds a section to it, it is noted here; copy that section into your own copy by hand.
 
 ## [1.0.0] - 2026-10-25
 
@@ -41,4 +41,5 @@ This file lists changes between versions. The format follows [Keep a Changelog](
 - `/df-oto` / `/df-auto` orchestrator, `/df-durum` / `/df-status`
 - Paralel güvenlik taraması ve paralel araştırma / Parallel security scan and research
 - Türkçe ve İngilizce sürümler, dile bağımsız proje yolları / Turkish and English versions, language-neutral project paths
-- `kur.ps1` kurulum betiği / install script
+- `setup.ps1` kurulum betiği / install script
+- Komut dosyaları da modeli sabitler; agent menüsü yerine komutların kullanılması önerilir ([microsoft/vscode#338949](https://github.com/microsoft/vscode/issues/338949)) / Command files also pin the model; using commands instead of the agent menu is recommended

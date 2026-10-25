@@ -26,8 +26,8 @@
   VS Code Insiders.
 
 .EXAMPLE
-  powershell -ExecutionPolicy Bypass -File .\kur.ps1
-  powershell -ExecutionPolicy Bypass -File .\kur.ps1 -Lang en
+  powershell -ExecutionPolicy Bypass -File .\setup.ps1
+  powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en
 #>
 param(
     [Alias('Lang')]

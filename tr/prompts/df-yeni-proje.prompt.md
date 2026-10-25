@@ -3,6 +3,7 @@ name: df-yeni-proje
 description: Sıfırdan yeni bir proje başlatır (mimar, yeni proje modu)
 argument-hint: Projenin amacını bir iki cümleyle yaz (varsa ticket numarasıyla)
 agent: mimar
+model: 'Claude Opus 5.5 (copilot)'
 ---
 Yeni proje modu. Ortada kod yok.
 

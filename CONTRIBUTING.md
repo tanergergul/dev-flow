@@ -11,12 +11,13 @@ Türkçe (`tr/`) ve İngilizce (`en/`) sürümler aynı akışın iki dildeki ka
 - [ ] Karşılık gelen agent'larda `model`, `tools`, `agents`, `handoffs` ve `user-invocable` alanları aynı (sadece adlar farklı).
 - [ ] Her agent'ın `name` alanı dosya adıyla aynı (`kesif.agent.md` → `name: kesif`).
 - [ ] Her komut dosyası `df-` ile başlıyor ve `name` alanı dosya adıyla aynı. `agent` alanı var olan bir agent'ı gösteriyor.
+- [ ] Her komut dosyasının `model` alanı, bağlı olduğu agent'ın birincil modeliyle (`model` dizisinin ilk elemanı) aynı.
 - [ ] Bir agent başka bir agent'ı subagent olarak çağırıyorsa, çağrılanın modeli çağıranınkinden pahalı değil. Copilot bu durumda subagent'ı çalıştırmaz.
 - [ ] Agent'ların başvurduğu her şablon `kurulum.agent.md` / `setup.agent.md` içinde tanımlı.
 - [ ] `copilot-instructions.md` şablonundaki bölüm başlıkları ve "Dev Flow" bölümü iki sürümde birebir aynı. Bu bölüm ekipçe paylaşılır ve iki sürüm de onu tanımalı.
 - [ ] Proje yolları dile bağımsız kalıyor (`.devflow/active.md`, `tasks/`, `knowledge/`, `templates/<dil>/`).
 - [ ] İki dildeki aynı adla iki dosya yok. İki sürüm aynı klasöre kurulur.
-- [ ] `kur.ps1`'i değiştirdiyseniz dosya UTF-8 BOM ile kaydedildi (tek BOM). Windows PowerShell 5.1, BOM olmadan Türkçe karakterleri yanlış okur.
+- [ ] `setup.ps1`'i değiştirdiyseniz dosya UTF-8 BOM ile kaydedildi (tek BOM). Windows PowerShell 5.1, BOM olmadan Türkçe karakterleri yanlış okur.
 - [ ] Kullanıcıya görünen değişiklikler `CHANGELOG.md`'de.
 
 ### Yazım ilkeleri
@@ -35,12 +36,13 @@ The Turkish (`tr/`) and English (`en/`) versions are the same flow in two langua
 - [ ] Corresponding agents have the same `model`, `tools`, `agents`, `handoffs` and `user-invocable` fields (only the names differ).
 - [ ] Each agent's `name` field matches its file name (`scout.agent.md` → `name: scout`).
 - [ ] Each command file starts with `df-` and its `name` field matches the file name. The `agent` field points to an existing agent.
+- [ ] Each command file's `model` field equals its agent's primary model (the first element of the `model` array).
 - [ ] If an agent calls another agent as a subagent, the callee's model is not more expensive than the caller's. Copilot does not run the subagent in that case.
 - [ ] Every template referenced by the agents is defined in `kurulum.agent.md` / `setup.agent.md`.
 - [ ] The section headings and the "Dev Flow" section of the `copilot-instructions.md` template are identical in both versions. This file is shared by the team and both versions must recognize it.
 - [ ] Project paths stay language-neutral (`.devflow/active.md`, `tasks/`, `knowledge/`, `templates/<lang>/`).
 - [ ] No two files share a name across the two languages. Both versions are installed into the same folder.
-- [ ] If you changed `kur.ps1`, it is saved as UTF-8 with a BOM (a single BOM). Windows PowerShell 5.1 misreads Turkish characters without it.
+- [ ] If you changed `setup.ps1`, it is saved as UTF-8 with a BOM (a single BOM). Windows PowerShell 5.1 misreads Turkish characters without it.
 - [ ] User-visible changes are in `CHANGELOG.md`.
 
 ### Writing principles
