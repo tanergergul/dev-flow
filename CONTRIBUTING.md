@@ -1,29 +1,4 @@
-# Katkı rehberi / Contributing
-
-## Türkçe
-
-Katkılarınızı memnuniyetle karşılıyoruz. Bir hata bildirmek veya iyileştirme önermek için issue açın. Kod değişiklikleri için pull request gönderin.
-
-### İki sürüm her zaman birlikte değişir
-Türkçe (`tr/`) ve İngilizce (`en/`) sürümler aynı akışın iki dildeki karşılığıdır. Bir agent'ta, komutta, şablonda veya README'de yaptığınız her değişikliği diğer dile de uygulayın. PR göndermeden önce şunları kontrol edin:
-
-- [ ] İki dilde agent ve komut sayısı aynı.
-- [ ] Karşılık gelen agent'larda `model`, `tools`, `agents`, `handoffs` ve `user-invocable` alanları aynı (sadece adlar farklı).
-- [ ] Her agent'ın `name` alanı dosya adıyla aynı (`kesif.agent.md` → `name: kesif`).
-- [ ] Her komut dosyası `df-` ile başlıyor ve `name` alanı dosya adıyla aynı. `agent` alanı var olan bir agent'ı gösteriyor.
-- [ ] Her komut dosyasının `model` alanı, bağlı olduğu agent'ın birincil modeliyle (`model` dizisinin ilk elemanı) aynı.
-- [ ] Bir agent başka bir agent'ı subagent olarak çağırıyorsa, çağrılanın modeli çağıranınkinden pahalı değil. Copilot bu durumda subagent'ı çalıştırmaz.
-- [ ] Agent'ların başvurduğu her şablon `kurulum.agent.md` / `setup.agent.md` içinde tanımlı.
-- [ ] `copilot-instructions.md` şablonundaki bölüm başlıkları ve "Dev Flow" bölümü iki sürümde birebir aynı. Bu bölüm ekipçe paylaşılır ve iki sürüm de onu tanımalı.
-- [ ] Proje yolları dile bağımsız kalıyor (`.devflow/active.md`, `tasks/`, `knowledge/`, `templates/<dil>/`).
-- [ ] İki dildeki aynı adla iki dosya yok. İki sürüm aynı klasöre kurulur.
-- [ ] `setup.ps1`'i değiştirdiyseniz dosya UTF-8 BOM ile kaydedildi (tek BOM). Windows PowerShell 5.1, BOM olmadan Türkçe karakterleri yanlış okur.
-- [ ] Kullanıcıya görünen değişiklikler `CHANGELOG.md`'de.
-
-### Yazım ilkeleri
-- Agent talimatları kısa ve emir kipinde olsun. Her satır her çağrıda token demek.
-- Agent'lara "uygun şekilde", "gerekirse" gibi belirsiz ifadeler yazmayın. Agent'ların spec'ten beklediği netliği talimatlar da taşımalı.
-- Örneklerde gerçek kurum adları, ticket anahtarları, müşteri verisi veya ortam adresleri kullanmayın (`PROJ-1234` gibi genel örnekler kullanın).
+# Contributing / Katkı rehberi
 
 ## English
 
@@ -49,3 +24,28 @@ The Turkish (`tr/`) and English (`en/`) versions are the same flow in two langua
 - Keep agent instructions short and imperative. Every line costs tokens on every call.
 - Do not write vague phrases such as "as appropriate" or "if needed" into agents. Instructions must be as precise as the specs the agents expect.
 - Do not use real organization names, ticket keys, customer data or environment addresses in examples (use generic ones such as `PROJ-1234`).
+
+## Türkçe
+
+Katkılarınızı memnuniyetle karşılıyoruz. Bir hata bildirmek veya iyileştirme önermek için issue açın. Kod değişiklikleri için pull request gönderin.
+
+### İki sürüm her zaman birlikte değişir
+Türkçe (`tr/`) ve İngilizce (`en/`) sürümler aynı akışın iki dildeki karşılığıdır. Bir agent'ta, komutta, şablonda veya README'de yaptığınız her değişikliği diğer dile de uygulayın. PR göndermeden önce şunları kontrol edin:
+
+- [ ] İki dilde agent ve komut sayısı aynı.
+- [ ] Karşılık gelen agent'larda `model`, `tools`, `agents`, `handoffs` ve `user-invocable` alanları aynı (sadece adlar farklı).
+- [ ] Her agent'ın `name` alanı dosya adıyla aynı (`kesif.agent.md` → `name: kesif`).
+- [ ] Her komut dosyası `df-` ile başlıyor ve `name` alanı dosya adıyla aynı. `agent` alanı var olan bir agent'ı gösteriyor.
+- [ ] Her komut dosyasının `model` alanı, bağlı olduğu agent'ın birincil modeliyle (`model` dizisinin ilk elemanı) aynı.
+- [ ] Bir agent başka bir agent'ı subagent olarak çağırıyorsa, çağrılanın modeli çağıranınkinden pahalı değil. Copilot bu durumda subagent'ı çalıştırmaz.
+- [ ] Agent'ların başvurduğu her şablon `kurulum.agent.md` / `setup.agent.md` içinde tanımlı.
+- [ ] `copilot-instructions.md` şablonundaki bölüm başlıkları ve "Dev Flow" bölümü iki sürümde birebir aynı. Bu bölüm ekipçe paylaşılır ve iki sürüm de onu tanımalı.
+- [ ] Proje yolları dile bağımsız kalıyor (`.devflow/active.md`, `tasks/`, `knowledge/`, `templates/<dil>/`).
+- [ ] İki dildeki aynı adla iki dosya yok. İki sürüm aynı klasöre kurulur.
+- [ ] `setup.ps1`'i değiştirdiyseniz dosya UTF-8 BOM ile kaydedildi (tek BOM). Windows PowerShell 5.1, BOM olmadan Türkçe karakterleri yanlış okur.
+- [ ] Kullanıcıya görünen değişiklikler `CHANGELOG.md`'de.
+
+### Yazım ilkeleri
+- Agent talimatları kısa ve emir kipinde olsun. Her satır her çağrıda token demek.
+- Agent'lara "uygun şekilde", "gerekirse" gibi belirsiz ifadeler yazmayın. Agent'ların spec'ten beklediği netliği talimatlar da taşımalı.
+- Örneklerde gerçek kurum adları, ticket anahtarları, müşteri verisi veya ortam adresleri kullanmayın (`PROJ-1234` gibi genel örnekler kullanın).

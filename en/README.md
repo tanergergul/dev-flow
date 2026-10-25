@@ -21,13 +21,13 @@ The idea: the expensive model (Opus) works only on thinking and decisions. Ambig
 ### 1. Once per machine
 In the root of the `dev-flow` folder:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
 ```
 - Copies the agents and commands to your VS Code user profile (`%APPDATA%\Code\User\prompts`). They work in all your projects.
 - Installs the `org-decisions` skill under `~\.copilot\skills\`. Existing skills are never overwritten.
 - Restart VS Code.
 
-The Turkish version is the default (`-Lang tr`). Both can be installed on the same machine side by side.
+The English version is the default. Use `-Lang tr` for the Turkish version. Both can be installed on the same machine side by side.
 
 To update, update the `dev-flow` folder and run the script again. Files with different content are backed up as `.bak`.
 
@@ -62,7 +62,7 @@ Recommended VS Code user settings:
 
 ### If the agents do not appear
 1. Select **Local** in the chat's **Session Target** picker. Commands (`/df-task` etc.) and handoff buttons only work in Local.
-2. Open **Configure Custom Agents** from the agent menu. It shows which folder user agents are kept in. If it is a different folder, reinstall with `.\setup.ps1 -Lang en -Target <that folder>`.
+2. Open **Configure Custom Agents** from the agent menu. It shows which folder user agents are kept in. If it is a different folder, reinstall with `.\setup.ps1 -Target <that folder>`.
 
 ---
 
@@ -292,7 +292,7 @@ As these files grow, the architect asks fewer questions and `scout` scans less c
 - Inline completions and Next Edit Suggestions do not cost credits. Use them instead of chat for simple coding.
 
 ## Models
-The `model` field of every agent file defines a primary and a fallback model; the fallback is used if the primary is unavailable. Every command file (`en/prompts/`) also contains its agent's primary model. Fallbacks are not documented for command files, so they contain only the primary model. **When changing a model, update both places:** `en/agents/<agent>.agent.md` and the `en/prompts/df-*.prompt.md` files that call that agent. Then run `setup.ps1 -Lang en` again.
+The `model` field of every agent file defines a primary and a fallback model; the fallback is used if the primary is unavailable. Every command file (`en/prompts/`) also contains its agent's primary model. Fallbacks are not documented for command files, so they contain only the primary model. **When changing a model, update both places:** `en/agents/<agent>.agent.md` and the `en/prompts/df-*.prompt.md` files that call that agent. Then run `setup.ps1` again.
 
 | Agent | Model | Why |
 |---|---|---|
@@ -331,7 +331,7 @@ Always make changes in the files of this repository and run `setup.ps1` again. T
 ## Updating and uninstalling
 **Updating**
 1. Update the repository (`git pull`).
-2. `.\setup.ps1 -Lang en`. Changed files are backed up as `.bak`.
+2. `.\setup.ps1`. Changed files are backed up as `.bak`.
 3. Run `/df-setup` once in each project. It asks if templates differ.
 4. If `CHANGELOG.md` says a new section was added to the `org-decisions` skill, copy it into your own copy by hand.
 
@@ -377,7 +377,7 @@ Have recurring decisions added to `decisions.md` (project) or `org-decisions` (o
 On purpose: it asks before committing on protected branches.
 
 **`setup.ps1` does not run.**
-Try `powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en`. If organization policy blocks it, copy the files by hand (Installation).
+Try `powershell -ExecutionPolicy Bypass -File .\setup.ps1`. If organization policy blocks it, copy the files by hand (Installation).
 
 **Characters in the `setup.ps1` output are garbled.**
 This comes from your console's code page; the installed files are not affected. Run `chcp 65001` first if you like.
@@ -409,7 +409,7 @@ Supported; see "Turkish version and shared structure".
 | AI Credit | Copilot's usage unit; 1 credit = 0.01 USD, consumed according to model token prices |
 
 ## Turkish version and shared structure
-The `tr/` folder contains the Turkish version of the same flow (agents: `kesif`, `mimar`, `uygulayici`…, commands: `/df-gorev`, `/df-planla`, `/df-uygula`…). It is the default for `setup.ps1`.
+The `tr/` folder contains the Turkish version of the same flow (agents: `kesif`, `mimar`, `uygulayici`…, commands: `/df-gorev`, `/df-planla`, `/df-uygula`…). Install it with `.\setup.ps1 -Lang tr`.
 
 Both versions can be used in the same project:
 - Project file paths are language-neutral: `.devflow/active.md`, `tasks/`, `knowledge/`, `01-context.md`, `04-status.md`…
@@ -428,7 +428,7 @@ en/
   skills/
     org-decisions/SKILL.md   Organization-wide principles and decisions (copied once to ~/.copilot/skills/)
 tr/            Turkish version
-setup.ps1        Install and update script (-Lang tr | en)
+setup.ps1        Install and update script (-Lang en | tr, default en)
 LICENSE        MIT license
 CHANGELOG.md   Release notes
 CONTRIBUTING.md Contribution guide

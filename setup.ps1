@@ -4,9 +4,9 @@
   Installs or updates the dev flow agents, commands and personal skills.
 
 .DESCRIPTION
-  - <dil>\agents\*.agent.md ve <dil>\prompts\*.prompt.md dosyalarını VS Code kullanıcı profilinin
+  - <lang>\agents\*.agent.md ve <lang>\prompts\*.prompt.md dosyalarını VS Code kullanıcı profilinin
     prompts klasörüne kopyalar. Farklı içerikli bir dosya varsa önce .bak olarak yedekler.
-  - <dil>\skills\ altındaki skill'leri ~\.copilot\skills\ altına kopyalar. Var olan bir skill'in
+  - <lang>\skills\ altındaki skill'leri ~\.copilot\skills\ altına kopyalar. Var olan bir skill'in
     üzerine yazmaz.
   Türkçe ve İngilizce sürümler aynı bilgisayara birlikte kurulabilir; agent ve komut adları farklıdır.
 
@@ -15,26 +15,26 @@
   - Copies the skills under <lang>\skills\ to ~\.copilot\skills\. Existing skills are never overwritten.
   The Turkish and English versions can be installed side by side; agent and command names differ.
 
-.PARAMETER Dil
-  tr (varsayılan / default) veya / or en. Alias: -Lang
+.PARAMETER Lang
+  en (varsayılan / default) veya / or tr. Alias: -Dil
 
-.PARAMETER Hedef
+.PARAMETER Target
   Agent ve prompt dosyalarının kopyalanacağı klasör / Target folder for agent and prompt files.
-  Varsayılan / Default: %APPDATA%\Code\User\prompts
+  Varsayılan / Default: %APPDATA%\Code\User\prompts. Alias: -Hedef
 
 .PARAMETER Insiders
   VS Code Insiders.
 
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File .\setup.ps1
-  powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en
+  powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang tr
 #>
 param(
-    [Alias('Lang')]
-    [ValidateSet('tr', 'en')]
-    [string]$Dil = 'tr',
-    [Alias('Target')]
-    [string]$Hedef,
+    [Alias('Dil')]
+    [ValidateSet('en', 'tr')]
+    [string]$Lang = 'en',
+    [Alias('Hedef')]
+    [string]$Target,
     [switch]$Insiders
 )
 
@@ -59,21 +59,21 @@ $m = @{
         Bitti    = 'Done. Restart VS Code and check that the dev flow agents appear in the Chat agent list.'
         Gorunmez = 'If they do not, see the "If the agents do not appear" section in en\README.md.'
     }
-}[$Dil]
+}[$Lang]
 
-$kaynak = Join-Path $PSScriptRoot $Dil
+$kaynak = Join-Path $PSScriptRoot $Lang
 
-if (-not $Hedef) {
+if (-not $Target) {
     $kod = if ($Insiders) { 'Code - Insiders' } else { 'Code' }
-    $Hedef = Join-Path $env:APPDATA "$kod\User\prompts"
+    $Target = Join-Path $env:APPDATA "$kod\User\prompts"
 }
-New-Item -ItemType Directory -Force -Path $Hedef | Out-Null
+New-Item -ItemType Directory -Force -Path $Target | Out-Null
 
 $dosyalar = @(Get-ChildItem (Join-Path $kaynak 'agents') -Filter '*.agent.md') +
             @(Get-ChildItem (Join-Path $kaynak 'prompts') -Filter '*.prompt.md')
 
 foreach ($d in $dosyalar) {
-    $hedefDosya = Join-Path $Hedef $d.Name
+    $hedefDosya = Join-Path $Target $d.Name
     if (Test-Path $hedefDosya) {
         if ((Get-FileHash $hedefDosya).Hash -eq (Get-FileHash $d.FullName).Hash) {
             Write-Host "$($m.Guncel)$($d.Name)"

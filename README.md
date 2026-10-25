@@ -1,10 +1,10 @@
 # dev-flow
 
-**GitHub Copilot (VS Code) için token tasarruflu, spec odaklı geliştirme akışı.**
 **A token-efficient, spec-driven development flow for GitHub Copilot (VS Code).**
+**GitHub Copilot (VS Code) için token tasarruflu, spec odaklı geliştirme akışı.**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-&nbsp;·&nbsp; [Türkçe](#türkçe) &nbsp;·&nbsp; [English](#english)
+&nbsp;·&nbsp; [English](#english) &nbsp;·&nbsp; [Türkçe](#türkçe)
 
 ```
  /df-task ──► scout ──► architect ──► implementer ──► reviewer ──► close
@@ -13,36 +13,6 @@
              the code    writes spec   code + tests,   spec        lessons,
                                        build, commit               skills
 ```
-
----
-
-## Türkçe
-
-### Ne işe yarar
-Copilot'un aylık AI Credit bütçesi, pahalı modellerin her işte kullanılmasıyla birkaç günde biter. dev-flow her aşamayı ihtiyacı olan en ucuz modelde çalıştırır ve hataları pahalı model incelemesine bırakmadan, koddan önce sorularla, sonra da build ve testlerle yakalar.
-
-- **Aşamaya göre model:** Keşif ve özetler en ucuz modelde, kararlar ve spec Opus'ta, kod yazımı Sonnet'te.
-- **Koddan önce sorular:** Mimar belirsizlikleri 10 kategoride tarar ve size önerili seçeneklerle sorar. Kararlar kaynaklarıyla kayda geçer.
-- **Tahmin bırakmayan spec:** Her kural bir teste, her test bir adıma bağlı. Uygulayıcı kod yazmadan önce spec'te kapsama kontrolü yapar.
-- **Küçük, ucuz oturumlar:** Agent'lar sohbet geçmişine değil görev dosyalarına dayanır. Her aşama yeni bir chat'te başlar ve uygulayıcı 4 adımda bir bağlamı sıfırlar.
-- **Adım başına commit:** Her başarılı adım yerel olarak commit'lenir. Push asla yapılmaz, korumalı dallarda size sorulur.
-- **Ayrı hata akışı:** Kanıta dayalı kök neden analizi, önce başarısız olan bir regresyon testi ve belirtinin gerçekten ortadan kalktığının doğrulanması.
-- **Kod hakkında soru:** `/df-sor` ile bir sınıfın veya metodun nasıl çalıştığını sorabilir, isterseniz detaylı rapor alabilirsiniz.
-- **Biriken bilgi:** Proje kararları, dersler, modül özetleri ve görevlerden üretilen skill'ler. Kullandıkça daha az soru sorulur ve daha az kod taranır.
-- **Bankacılığa uygun güvenlik:** Kart numarası, TCKN ve IBAN maskeleme kontrolleri, gizli bilgi taraması, KVKK/PCI kategorileri.
-- **İsteğe bağlı otomasyon:** `/df-oto` bütün akışı tek sohbetten yönetir. `/df-durum` istediğiniz an nerede olduğunuzu gösterir.
-
-### Hızlı başlangıç
-```powershell
-git clone <bu repo>
-cd dev-flow
-powershell -ExecutionPolicy Bypass -File .\setup.ps1
-```
-VS Code'u yeniden başlatın, bir projeyi açın, Chat'te **Session Target → Local** seçin ve:
-1. `/df-kurulum`: projeye bir kez kurulur.
-2. `/df-gorev PROJ-1234 <ne yapmak istediğiniz>`: ilk görev.
-
-Gereksinimler, bütün komutlar, örnek bir görev, özelleştirme ve sorun giderme: **[tr/README.md](tr/README.md)**
 
 ---
 
@@ -66,7 +36,7 @@ A Copilot AI Credit budget runs out within days when expensive models are used f
 ```powershell
 git clone <this repo>
 cd dev-flow
-powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang en
+powershell -ExecutionPolicy Bypass -File .\setup.ps1
 ```
 Restart VS Code, open a project, select **Session Target → Local** in the chat, then:
 1. `/df-setup`: once per project.
@@ -76,30 +46,60 @@ Requirements, all commands, a worked example, customization and troubleshooting:
 
 ---
 
-## Sürümler / Versions
+## Türkçe
 
-| | Türkçe | English |
-|---|---|---|
-| Kılavuz / Guide | [tr/README.md](tr/README.md) | [en/README.md](en/README.md) |
-| Kurulum / Install | `.\setup.ps1` | `.\setup.ps1 -Lang en` |
-| İlk komut / First command | `/df-kurulum` | `/df-setup` |
-| Yeni görev / New task | `/df-gorev` | `/df-task` |
-| Hata / Bug | `/df-hata` | `/df-bug` |
-| Kod hakkında soru / Ask about code | `/df-sor` | `/df-ask` |
-| Durum / Status | `/df-durum` | `/df-status` |
+### Ne işe yarar
+Copilot'un aylık AI Credit bütçesi, pahalı modellerin her işte kullanılmasıyla birkaç günde biter. dev-flow her aşamayı ihtiyacı olan en ucuz modelde çalıştırır ve hataları pahalı model incelemesine bırakmadan, koddan önce sorularla, sonra da build ve testlerle yakalar.
 
-İki sürüm aynı bilgisayara ve aynı projeye birlikte kurulabilir; proje dosyalarının yolları dile bağımsızdır.
-Both versions can be installed side by side and used in the same project; project file paths are language-neutral.
+- **Aşamaya göre model:** Keşif ve özetler en ucuz modelde, kararlar ve spec Opus'ta, kod yazımı Sonnet'te.
+- **Koddan önce sorular:** Mimar belirsizlikleri 10 kategoride tarar ve size önerili seçeneklerle sorar. Kararlar kaynaklarıyla kayda geçer.
+- **Tahmin bırakmayan spec:** Her kural bir teste, her test bir adıma bağlı. Uygulayıcı kod yazmadan önce spec'te kapsama kontrolü yapar.
+- **Küçük, ucuz oturumlar:** Agent'lar sohbet geçmişine değil görev dosyalarına dayanır. Her aşama yeni bir chat'te başlar ve uygulayıcı 4 adımda bir bağlamı sıfırlar.
+- **Adım başına commit:** Her başarılı adım yerel olarak commit'lenir. Push asla yapılmaz, korumalı dallarda size sorulur.
+- **Ayrı hata akışı:** Kanıta dayalı kök neden analizi, önce başarısız olan bir regresyon testi ve belirtinin gerçekten ortadan kalktığının doğrulanması.
+- **Kod hakkında soru:** `/df-sor` ile bir sınıfın veya metodun nasıl çalıştığını sorabilir, isterseniz detaylı rapor alabilirsiniz.
+- **Biriken bilgi:** Proje kararları, dersler, modül özetleri ve görevlerden üretilen skill'ler. Kullandıkça daha az soru sorulur ve daha az kod taranır.
+- **Bankacılığa uygun güvenlik:** Kart numarası, TCKN ve IBAN maskeleme kontrolleri, gizli bilgi taraması, KVKK/PCI kategorileri.
+- **İsteğe bağlı otomasyon:** `/df-oto` bütün akışı tek sohbetten yönetir. `/df-durum` istediğiniz an nerede olduğunuzu gösterir.
 
-## Repo yapısı / Repository layout
+### Hızlı başlangıç
+```powershell
+git clone <bu repo>
+cd dev-flow
+powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Lang tr
 ```
-tr/               Türkçe sürüm: agents, prompts, skills, README
+VS Code'u yeniden başlatın, bir projeyi açın, Chat'te **Session Target → Local** seçin ve:
+1. `/df-kurulum`: projeye bir kez kurulur.
+2. `/df-gorev PROJ-1234 <ne yapmak istediğiniz>`: ilk görev.
+
+Gereksinimler, bütün komutlar, örnek bir görev, özelleştirme ve sorun giderme: **[tr/README.md](tr/README.md)**
+
+---
+
+## Versions / Sürümler
+
+| | English | Türkçe |
+|---|---|---|
+| Guide / Kılavuz | [en/README.md](en/README.md) | [tr/README.md](tr/README.md) |
+| Install / Kurulum | `.\setup.ps1` | `.\setup.ps1 -Lang tr` |
+| First command / İlk komut | `/df-setup` | `/df-kurulum` |
+| New task / Yeni görev | `/df-task` | `/df-gorev` |
+| Bug / Hata | `/df-bug` | `/df-hata` |
+| Ask about code / Kod hakkında soru | `/df-ask` | `/df-sor` |
+| Status / Durum | `/df-status` | `/df-durum` |
+
+Both versions can be installed side by side and used in the same project; project file paths are language-neutral.
+İki sürüm aynı bilgisayara ve aynı projeye birlikte kurulabilir; proje dosyalarının yolları dile bağımsızdır.
+
+## Repository layout / Repo yapısı
+```
 en/               English version: agents, prompts, skills, README
-setup.ps1           Kurulum ve güncelleme / Install and update (-Lang tr | en)
-CHANGELOG.md      Sürüm notları / Release notes
-CONTRIBUTING.md   Katkı rehberi / Contribution guide
+tr/               Türkçe sürüm: agents, prompts, skills, README
+setup.ps1         Install and update / Kurulum ve güncelleme (-Lang en | tr, default en)
+CHANGELOG.md      Release notes / Sürüm notları
+CONTRIBUTING.md   Contribution guide / Katkı rehberi
 LICENSE           MIT
 ```
 
-## Lisans / License
+## License / Lisans
 [MIT](LICENSE) © 2026 Taner Gergül

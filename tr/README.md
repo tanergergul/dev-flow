@@ -21,9 +21,9 @@ Temel fikir: pahalı model (Opus) sadece düşünme ve karar işlerinde çalış
 ### 1. Bilgisayara bir kez
 `dev-flow` klasörünün kökünde:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\setup.ps1
+powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Dil tr
 ```
-Türkçe sürüm varsayılandır. İngilizce sürüm için `-Dil en` ekleyin. İkisi aynı bilgisayara birlikte kurulabilir.
+Parametresiz çalıştırırsanız İngilizce sürüm kurulur (varsayılan). `-Dil` yerine `-Lang` da yazabilirsiniz. İkisi aynı bilgisayara birlikte kurulabilir.
 - Agent'ları ve komutları VS Code kullanıcı profiline kopyalar (`%APPDATA%\Code\User\prompts`). Bütün projelerinizde çalışırlar.
 - `kurum-kararlari` skill'ini `~\.copilot\skills\` altına kurar. Var olan bir skill'in üzerine yazmaz.
 - VS Code'u yeniden başlatın.
@@ -50,7 +50,7 @@ Dev flow güncellendiğinde şablonları yenilemek için `/df-kurulum`'u tekrar 
 ### İlk kullanım kontrol listesi
 Agent'lar VS Code arayüzünü göremez; bu ikisini siz kontrol edin:
 - [ ] Chat'teki agent listesinde `kesif`, `mimar`, `uygulayici`, `denetci`, `hizli`, `hata-analiz`, `aciklayici`, `oto`, `durum`, `kurulum`, `pr`, `gorev-sec`, `skill-olustur` görünüyor. `arastirmaci` ve `guvenlik-tarama` sadece yardımcı subagent oldukları için listede görünmez.
-- [ ] `/df-kurulum` çalışırken model seçicide Sonnet görünüyor. Görünmüyorsa agent ve komut dosyalarındaki `model` alanındaki isimleri model seçicinizdeki isimlerle değiştirip `setup.ps1`'i tekrar çalıştırın.
+- [ ] `/df-kurulum` çalışırken model seçicide Sonnet görünüyor. Görünmüyorsa agent ve komut dosyalarındaki `model` alanındaki isimleri model seçicinizdeki isimlerle değiştirip `setup.ps1 -Dil tr` ile tekrar kurun.
 - [ ] **Gerçekte hangi modelin çalıştığını doğrulayın.** Her agent'ı ilk kez çalıştırdığınızda Command Palette'te "Chat Debug" diye aratıp chat'in debug görünümünü açın ve kullanılan modele bakın. VS Code'da, agent dosyasında sabitlenen modelin model seçicideki seçim tarafından ezildiği açık bir hata kaydı var ([#338949](https://github.com/microsoft/vscode/issues/338949)). Model yanlışsa model seçicide doğru modeli elle seçin. Bu kontrolü atlamayın; ucuz modelde çalışması gereken bir agent'ın Opus'ta çalışması kotanızı hızla tüketir.
 
 Önerilen VS Code kullanıcı ayarları:
@@ -61,7 +61,7 @@ Agent'lar VS Code arayüzünü göremez; bu ikisini siz kontrol edin:
 
 ### Agent'lar görünmüyorsa
 1. Chat'in **Session Target** seçicisinde **Local** seçili olsun. Komutlar (`/df-gorev` vb.) ve handoff butonları sadece Local'de çalışır.
-2. Agent menüsünden **Configure Custom Agents**'ı açın. Kullanıcı (User) agent'larının hangi klasörde tutulduğunu orada görebilirsiniz. Klasör farklıysa `.\setup.ps1 -Hedef <o klasör>` ile tekrar kurun.
+2. Agent menüsünden **Configure Custom Agents**'ı açın. Kullanıcı (User) agent'larının hangi klasörde tutulduğunu orada görebilirsiniz. Klasör farklıysa `.\setup.ps1 -Dil tr -Hedef <o klasör>` ile tekrar kurun.
 
 ---
 
@@ -291,7 +291,7 @@ Bu dosyalar büyüdükçe Mimar daha az soru sorar ve `kesif` daha az kod tarar.
 - Inline completion ve Next Edit Suggestions credit harcamaz. Basit kod yazımında chat yerine bunları kullanın.
 
 ## Modeller
-Her agent dosyasındaki `model` alanında birincil ve yedek model tanımlıdır; yedek, birincil kullanılamazsa devreye girer. Her komut dosyasında da (`tr/prompts/`) agent'ının birincil modeli yazılıdır. Komut dosyalarında yedek model belgelenmediği için sadece birincil model vardır. **Modeli değiştirirken iki yeri birlikte güncelleyin:** `tr/agents/<agent>.agent.md` ve o agent'ı çağıran `tr/prompts/df-*.prompt.md` dosyaları. Sonra `setup.ps1`'i tekrar çalıştırın.
+Her agent dosyasındaki `model` alanında birincil ve yedek model tanımlıdır; yedek, birincil kullanılamazsa devreye girer. Her komut dosyasında da (`tr/prompts/`) agent'ının birincil modeli yazılıdır. Komut dosyalarında yedek model belgelenmediği için sadece birincil model vardır. **Modeli değiştirirken iki yeri birlikte güncelleyin:** `tr/agents/<agent>.agent.md` ve o agent'ı çağıran `tr/prompts/df-*.prompt.md` dosyaları. Sonra `setup.ps1 -Dil tr` ile tekrar kurun.
 
 | Agent | Model | Neden |
 |---|---|---|
@@ -309,7 +309,7 @@ Her agent dosyasındaki `model` alanında birincil ve yedek model tanımlıdır;
 ---
 
 ## Özelleştirme
-Değişiklikleri her zaman bu repodaki dosyalarda yapın ve `setup.ps1`'i tekrar çalıştırın. VS Code profil klasöründeki kopyalar bir sonraki kurulumda üzerine yazılır (eskisi `.bak` olarak saklanır).
+Değişiklikleri her zaman bu repodaki dosyalarda yapın ve `setup.ps1 -Dil tr` ile tekrar kurun. VS Code profil klasöründeki kopyalar bir sonraki kurulumda üzerine yazılır (eskisi `.bak` olarak saklanır).
 
 | Ne | Nerede |
 |---|---|
@@ -330,7 +330,7 @@ Değişiklikleri her zaman bu repodaki dosyalarda yapın ve `setup.ps1`'i tekrar
 ## Güncelleme ve kaldırma
 **Güncelleme**
 1. Repoyu güncelleyin (`git pull`).
-2. `.\setup.ps1` (veya `-Dil en`). Değişen dosyalar `.bak` olarak yedeklenir.
+2. `.\setup.ps1 -Dil tr`. Değişen dosyalar `.bak` olarak yedeklenir.
 3. Her projede bir kez `/df-kurulum`. Şablon farkları varsa sorar.
 4. `CHANGELOG.md`'de `kurum-kararlari` skill'ine yeni bir bölüm eklendiği yazıyorsa onu kendi kopyanıza elle aktarın.
 
@@ -355,7 +355,7 @@ Session Target'ta Local seçili mi? VS Code'u yeniden başlattınız mı? Değil
 Agent'lar Copilot harness'ta da çalışır, ama komutlar ve handoff butonları çalışmaz. Agent menüsünden agent'ı seçip "devam" yazın. Soru aracı olmayabilir; agent'lar o zaman soruları düz metinle sorar.
 
 **Model seçicide farklı bir model görünüyor veya debug görünümünde yanlış model çalışıyor.**
-İki olası sebep var. (1) Agent ve komut dosyalarındaki `model` adları sizin model seçicinizdeki adlarla birebir aynı olmalı; değilse düzeltip `setup.ps1`'i tekrar çalıştırın. (2) VS Code'da, sabitlenen modelin model seçicideki seçim tarafından ezildiği açık bir hata var ([#338949](https://github.com/microsoft/vscode/issues/338949)). Agent'ı menüden değil komutla başlatın; yine yanlışsa model seçicide doğru modeli elle seçin.
+İki olası sebep var. (1) Agent ve komut dosyalarındaki `model` adları sizin model seçicinizdeki adlarla birebir aynı olmalı; değilse düzeltip `setup.ps1 -Dil tr` ile tekrar kurun. (2) VS Code'da, sabitlenen modelin model seçicideki seçim tarafından ezildiği açık bir hata var ([#338949](https://github.com/microsoft/vscode/issues/338949)). Agent'ı menüden değil komutla başlatın; yine yanlışsa model seçicide doğru modeli elle seçin.
 
 **Sorular tıklanabilir değil, düz metin geliyor.**
 `askQuestions` aracı ortamınızda yok demektir. Sorun değil: `1a 2b` gibi ya da `önerilenler` yazarak cevaplayın.
@@ -376,7 +376,7 @@ Tekrar eden kararları `decisions.md`'ye (proje) veya `kurum-kararlari`'na (kuru
 Bilinçli: korumalı dallarda commit atmadan önce sorar.
 
 **`setup.ps1` çalışmıyor.**
-`powershell -ExecutionPolicy Bypass -File .\setup.ps1` ile deneyin. Kurum politikası engelliyorsa dosyaları elle kopyalayın (Kurulum).
+`powershell -ExecutionPolicy Bypass -File .\setup.ps1 -Dil tr` ile deneyin. Kurum politikası engelliyorsa dosyaları elle kopyalayın (Kurulum).
 
 **`setup.ps1` çıktısında Türkçe karakterler bozuk.**
 Konsolunuzun kod sayfasından kaynaklanır, kurulan dosyalar etkilenmez. İsterseniz önce `chcp 65001` çalıştırın.
@@ -408,7 +408,7 @@ Desteklenir; bkz. "İngilizce sürüm ve ortak yapı".
 | AI Credit | Copilot'un kullanım birimi; 1 credit = 0,01 USD, model token fiyatına göre harcanır |
 
 ## İngilizce sürüm ve ortak yapı
-`en/` klasöründe aynı akışın İngilizce sürümü var (agent'lar: `scout`, `architect`, `implementer`…, komutlar: `/df-task`, `/df-spec`, `/df-implement`…). Ekipte İngilizce kullanmak isteyenler `.\setup.ps1 -Dil en` ile kurar.
+`en/` klasöründe aynı akışın İngilizce sürümü var (agent'lar: `scout`, `architect`, `implementer`…, komutlar: `/df-task`, `/df-spec`, `/df-implement`…). `setup.ps1`'in varsayılanıdır: ekipte İngilizce kullanmak isteyenler `.\setup.ps1` ile kurar.
 
 İki sürüm aynı projede birlikte kullanılabilir:
 - Proje dosyalarının yolları dile bağımsızdır: `.devflow/active.md`, `tasks/`, `knowledge/`, `01-context.md`, `04-status.md`…
@@ -427,7 +427,7 @@ tr/
   skills/
     kurum-kararlari/SKILL.md   Kurum geneli ilke ve kararlar (~/.copilot/skills/ altına bir kez kopyalanır)
 en/            İngilizce sürüm
-setup.ps1        Kurulum ve güncelleme betiği (-Dil tr | en)
+setup.ps1        Kurulum ve güncelleme betiği (-Dil en | tr, varsayılan en)
 LICENSE        MIT lisansı
 CHANGELOG.md   Sürüm notları
 CONTRIBUTING.md Katkı rehberi

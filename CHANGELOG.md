@@ -5,6 +5,12 @@ This file lists changes between versions. The format follows [Keep a Changelog](
 
 **Güncellerken / When updating:** `setup.ps1`, var olan `kurum-kararlari` / `org-decisions` skill'inin üzerine yazmaz. Bir sürüm bu dosyaya yeni bir bölüm eklerse burada belirtilir; o bölümü kendi kopyanıza elle aktarın. `setup.ps1` never overwrites an existing `kurum-kararlari` / `org-decisions` skill. If a release adds a section to it, it is noted here; copy that section into your own copy by hand.
 
+## [Unreleased]
+
+### Değişenler / Changed
+- `setup.ps1` varsayılan olarak İngilizce sürümü kurar; Türkçe için `-Lang tr` (veya `-Dil tr`). Parametrelerin asıl adları `-Lang` ve `-Target`, Türkçe adları (`-Dil`, `-Hedef`) takma ad olarak çalışmaya devam eder. / `setup.ps1` installs the English version by default; use `-Lang tr` (or `-Dil tr`) for Turkish. The parameters are now named `-Lang` and `-Target`; the Turkish names (`-Dil`, `-Hedef`) still work as aliases.
+- Ana README ve CONTRIBUTING'de İngilizce bölüm önce gelir. / English comes first in the root README and CONTRIBUTING.
+
 ## [1.0.0] - 2026-10-25
 
 İlk sürüm. / First release.
