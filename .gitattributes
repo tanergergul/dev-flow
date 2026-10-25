@@ -1,0 +1,4 @@
+* text=auto eol=lf
+
+# Windows PowerShell betikleri CRLF ile / PowerShell scripts with CRLF
+*.ps1 text eol=crlf

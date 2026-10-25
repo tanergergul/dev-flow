@@ -1,0 +1,12 @@
+# Kurulum betiğinin yedekleri / installer backups
+*.bak
+
+# İşletim sistemi / OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editör / Editor
+.vscode/
+.idea/
+*.swp
